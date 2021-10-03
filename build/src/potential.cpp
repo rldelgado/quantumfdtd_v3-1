@@ -71,8 +71,8 @@ dcomp potential(int sx, int sy, int sz)
         return -1. / r + 1. / A;
         break;
     case 4:
-        // 3d harmonic oscillator
-        return r * r / 2;
+        // 3d harmonic oscillator; COUPLING CONSTANT: (1GeV^3)
+        return r * r;
         break;
     case 5:
         // Complex 3d harmonic oscillator
