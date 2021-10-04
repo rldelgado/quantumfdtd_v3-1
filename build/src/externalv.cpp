@@ -33,7 +33,8 @@ void load_external_file(const char *filename);
 
 // This holds the external potential v vs. r2
 
-struct external_v_int_t{
+struct external_v_int_t
+{
   gsl_interp_accel *acc_re, *acc_im;
   gsl_spline *spline_re, *spline_im;
 
@@ -42,7 +43,6 @@ struct external_v_int_t{
 
   int length;
 } ev_int = {NULL, NULL, NULL, NULL, NULL, NULL, NULL};
-
 
 dcomp read_external_radial_v(double raw_r2)
 {
@@ -56,7 +56,8 @@ dcomp read_external_radial_v(double raw_r2)
 
 void load_external_radial_v(const char *filename)
 {
-  if(!filename) filename="potential.txt";
+  if (!filename)
+    filename = "potential.txt";
   load_external_file(filename);
 }
 
@@ -65,11 +66,11 @@ void load_external_file(const char *filename)
   ifstream file(filename);
 
   cerr << "CHECKING FILE..." << endl;
-  if(!file){
+  if (!file)
+  {
     cerr << "EXTERNAL POTENTIAL DOES NOT EXIST!!!" << endl;
     exit(-1);
   }
-
 
   int maxline = 128; // maximum line length used in the buffer for reading
   char buffer[maxline];
@@ -79,9 +80,11 @@ void load_external_file(const char *filename)
 
   ev_int.length = 0;
 
-  while(!file.eof()){
+  while (!file.eof())
+  {
     file.getline(buffer, maxline, '\n');
-    if (sscanf(buffer, "%*e %*e %*e") != EOF){
+    if (sscanf(buffer, "%*e %*e %*e") != EOF)
+    {
       ev_int.length++;
     }
   }
@@ -98,10 +101,13 @@ void load_external_file(const char *filename)
   ev_int.spline_re = gsl_spline_alloc(gsl_interp_cspline, ev_int.length);
   ev_int.spline_im = gsl_spline_alloc(gsl_interp_cspline, ev_int.length);
 
-  while(!file.eof()){
+  while (!file.eof())
+  {
     file.getline(buffer, maxline, '\n');
-    if (sscanf(buffer, "%le %le %le", &buff_r2, &buff_re, &buff_im) != EOF){
-      if (counter >= ev_int.length){
+    if (sscanf(buffer, "%le %le %le", &buff_r2, &buff_re, &buff_im) != EOF)
+    {
+      if (counter >= ev_int.length)
+      {
         cerr << "ERROR: UNCORRECTLY PREDICTED EXTERNAL POTENTIAL FILE LENGTH!!!" << endl;
         exit(1);
       }
