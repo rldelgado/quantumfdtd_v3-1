@@ -65,9 +65,7 @@ void setInitialConditions(int seedMult)
             for (sx = 0; sx < NUMX + 2; sx++)
                 for (sy = 0; sy < NUM + 2; sy++)
                     for (sz = 0; sz < NUM + 2; sz++)
-                    {
                         w[sx][sy][sz] = randGauss(sig);
-                    }
         }
         while (getline(input, line))
             lines.push_back(line);
@@ -134,9 +132,7 @@ void setInitialConditions(int seedMult)
         for (sx = 0; sx < NUMX + 2; sx++)
             for (sy = 0; sy < NUM + 2; sy++)
                 for (sz = 0; sz < NUM + 2; sz++)
-                {
                     w[sx][sy][sz] = dcomp(randGauss(sig), randGauss(sig));
-                }
         break;
     case 2: // Coulomb potential
         if (nodeID == 1)
@@ -192,9 +188,7 @@ void setInitialConditions(int seedMult)
         for (sx = 0; sx <= NUMX + 1; sx++)
             for (sy = 0; sy <= NUM + 1; sy++)
                 for (sz = 0; sz <= NUM + 1; sz++)
-                {
                     w[sx][sy][sz] = 0.1;
-                }
         break;
     case 4:
         // test grid
@@ -203,9 +197,7 @@ void setInitialConditions(int seedMult)
         for (sx = 0; sx <= NUMX + 1; sx++)
             for (sy = 0; sy <= NUM + 1; sy++)
                 for (sz = 0; sz <= NUM + 1; sz++)
-                {
                     w[sx][sy][sz] = (sx % 2) * (sy % 2) * (sz % 2);
-                }
         break;
     case 5:
         // test grid
@@ -236,21 +228,25 @@ void setInitialConditions(int seedMult)
                         for (sy = 1; sy <= NUM; sy++)
                             for (sz = 1; sz <= NUM; sz++)
                             {
+
                                 int x = sx + NUMX * (nodeID - 1) - 1;
                                 int y = sy - 1;
                                 int z = sz - 1;
 
                                 /*
-                if(abs(kx)>NUM/16 || abs(ky)>NUM/16 || abs(kz)>NUM/16){
-                    if(rand()*12*k2/10 < RAND_MAX) continue;
-                }
-                */
+                                if (abs(kx) > NUM / 16 || abs(ky) > NUM / 16 || abs(kz) > NUM / 16)
+                                {
+                                    if (rand() * 12 * k2 / 10 < RAND_MAX)
+                                        continue;
+                                }
+                                */
 
                                 w[sx][sy][sz] = fact * exp(dcomp(0., M_PI * ((double)(kx * x)) / ((double)NUM))) *
                                                 exp(dcomp(0., M_PI * ((double)ky * y) / ((double)NUM))) *
                                                 exp(dcomp(0., M_PI * ((double)kz * z) / ((double)NUM)));
                             }
                 }
+
         if (nodeID == 1)
             cout << "==> End initial wavefunction (node 1) : Fourier components" << endl;
         break;
@@ -286,32 +282,24 @@ void setInitialConditions(int seedMult)
     for (sx = 0; sx < NUMX + 2; sx++)
         for (sy = 0; sy < NUM + 2; sy++)
             for (sz = 0; sz < NUM + 2; sz++)
-            {
                 W[sx][sy][sz] = 0;
-            }
 
     // zero out ith wf for safety's sake
     for (sx = 0; sx < NUMX + 2; sx++)
         for (sy = 0; sy < NUM + 2; sy++)
             for (sz = 0; sz < NUM + 2; sz++)
-            {
                 w1[sx][sy][sz] = 0;
-            }
 
     for (sx = 0; sx < NUMX + 2; sx++)
         for (sy = 0; sy < NUM + 2; sy++)
             for (sz = 0; sz < NUM + 2; sz++)
-            {
                 w2[sx][sy][sz] = 0;
-            }
 
     // zero out t_kin for safety's sake
     for (sx = 0; sx < NUMX + 2; sx++)
         for (sy = 0; sy < NUM + 2; sy++)
             for (sz = 0; sz < NUM + 2; sz++)
-            {
                 t_kin[sx][sy][sz] = 0;
-            }
 
     // symmetrize the intial condition
     symmetrizeWavefunction();
@@ -333,7 +321,7 @@ void symmetrizeWavefunction()
         // no symmetry
         break;
     case 1:
-    // symmetric in z
+        // symmetric in z
     case 2:
         // antisymmetric in z
         for (sx = 0; sx < NUMX + 2; sx++)
@@ -366,7 +354,7 @@ void symmetrizeWavefunction()
         }
         break;
     case 3:
-    // symmetric in y
+        // symmetric in y
     case 4:
         // antisymmetric in y
         for (sx = 0; sx < NUMX + 2; sx++)
@@ -375,6 +363,7 @@ void symmetrizeWavefunction()
             for (sy = 1; sy <= NUM; sy++)
             {
                 y = sy;
+
                 if (origin_center_lattice())
                 {
                     displa = 1;
@@ -388,6 +377,7 @@ void symmetrizeWavefunction()
 
                 if (trigger)
                     y = NUM + displa - y;
+
                 for (sz = 1; sz <= NUM; sz++)
                 {
                     z = sz;

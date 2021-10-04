@@ -169,6 +169,7 @@ void loadPotentialArrays()
 
     if (POTSUBARRAY())
     {
+
         for (sx = 0; sx <= NUMX + 1; sx++)
             for (sy = 0; sy <= NUM + 1; sy++)
                 for (sz = 0; sz <= NUM + 1; sz++)
@@ -303,18 +304,15 @@ inline dcomp updateRule(int sx, int sy, int sz, double step)
 // CALL wfncKinetic(w) FIRST!!!
 void updateBoundaries(double step)
 {
+
     for (int sx = 1; sx <= NUMX; sx += NUMX - 1)
         for (int sy = 0; sy < NUM + 2; sy++)
             for (int sz = 0; sz < NUM + 2; sz++)
             {
                 if (sy >= 1 && sy <= NUM && sz >= 1 && sz <= NUM)
-                {
                     W[sx][sy][sz] = updateRule(sx, sy, sz, step);
-                }
                 else
-                {
                     W[sx][sy][sz] = w[sx][sy][sz];
-                }
             }
 }
 
@@ -322,6 +320,7 @@ void updateBoundaries(double step)
 // CALL wfncKinetic(w) FIRST!!!
 void updateInterior(double step)
 {
+
     for (int sx = 0; sx < NUMX + 2; sx++)
         for (int sy = 0; sy < NUM + 2; sy++)
             for (int sz = 0; sz < NUM + 2; sz++)
@@ -330,13 +329,9 @@ void updateInterior(double step)
                 if (sx == 1 || sx == NUMX)
                     continue;
                 if (sx >= 1 && sx <= NUMX && sy >= 1 && sy <= NUM && sz >= 1 && sz <= NUM)
-                {
                     W[sx][sy][sz] = updateRule(sx, sy, sz, step);
-                }
                 else
-                {
                     W[sx][sy][sz] = w[sx][sy][sz];
-                }
             }
 }
 
@@ -345,9 +340,7 @@ void recordSnapshot(dcomp ***wfnc, int snap)
     for (int sx = 0; sx <= NUMX + 1; sx++)
         for (int sy = 0; sy <= NUM + 1; sy++)
             for (int sz = 0; sz <= NUM + 1; sz++)
-            {
                 wstore[snap][sx][sy][sz] = wfnc[sx][sy][sz];
-            }
 }
 
 void normalizeWavefunction(dcomp ***wfnc)
@@ -356,7 +349,5 @@ void normalizeWavefunction(dcomp ***wfnc)
     for (int sx = 0; sx <= NUMX + 1; sx++)
         for (int sy = 0; sy <= NUM + 1; sy++)
             for (int sz = 0; sz <= NUM + 1; sz++)
-            {
                 wfnc[sx][sy][sz] /= norm;
-            }
 }

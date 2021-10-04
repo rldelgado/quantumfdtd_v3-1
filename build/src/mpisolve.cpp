@@ -668,9 +668,7 @@ dcomp computeOverlap(dcomp ***wfnc1, dcomp ***wfnc2)
   for (int sx = 1; sx <= NUMX; sx++)
     for (int sy = 1; sy <= NUM; sy++)
       for (int sz = 1; sz <= NUM; sz++)
-      {
         overlap += conj(wfnc1[sx][sy][sz]) * wfnc2[sx][sy][sz];
-      }
 
   MPI_Reduce(&overlap, &overlapCollect, 1, MPI_DOUBLE_COMPLEX, MPI_SUM, 0, workers_comm);
   MPI_Bcast(&overlapCollect, 1, MPI_DOUBLE_COMPLEX, 0, workers_comm);
@@ -700,9 +698,7 @@ void findExcitedStates(const double time, int step)
   for (int sx = 0; sx < NUMX + 2; sx++)
     for (int sy = 0; sy < NUM + 2; sy++)
       for (int sz = 0; sz < NUM + 2; sz++)
-      {
         w1[sx][sy][sz] = wstore[snap][sx][sy][sz] - overlap * w[sx][sy][sz];
-      }
 
   // compute observables
   computeObservables(w1);
@@ -750,9 +746,7 @@ void findExcitedStates(const double time, int step)
   for (int sx = 0; sx < NUMX + 2; sx++)
     for (int sy = 0; sy < NUM + 2; sy++)
       for (int sz = 0; sz < NUM + 2; sz++)
-      {
         w2[sx][sy][sz] = wstore[snap][sx][sy][sz] - overlap * w[sx][sy][sz] - overlap2 * w1[sx][sy][sz];
-      }
 
   // compute observables
   computeObservables(w2);
@@ -923,13 +917,12 @@ void wfncKinetic(dcomp ***wfnc)
     for (int sx = 1; sx <= NUMX; sx++)
       for (int sy = 1; sy <= NUM; sy++)
         for (int sz = 1; sz <= NUM; sz++)
-        {
           t_kin[sx][sy][sz] = -(wfnc[sx + 1][sy][sz] + wfnc[sx - 1][sy][sz] +
                                 wfnc[sx][sy + 1][sz] + wfnc[sx][sy - 1][sz] +
                                 wfnc[sx][sy][sz + 1] + wfnc[sx][sy][sz - 1] -
                                 ((dcomp)6.) * wfnc[sx][sy][sz]) /
                               (((dcomp)2.) * A * A * MASS);
-        }
+
     break;
 
   case 1: // FFTW: NON RELATIVISTIC
@@ -949,9 +942,7 @@ void wfncKinetic(dcomp ***wfnc)
     for (int i = 0; i < fftw_par.local_n0; ++i)
       for (int j = 0; j < NUM; ++j)
         for (int k = 0; k < NUM; ++k)
-        {
           dcomp_to_fftw(wfnc[i + 1][j + 1][k + 1], &fftw_par.in[i * NUM * NUM + j * NUM + k]);
-        }
 
     MPI_Barrier(workers_comm);
     fftw_execute(fftw_par.plan_fftw);
