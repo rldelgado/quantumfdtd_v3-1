@@ -14,7 +14,7 @@ SOURCE="${BASH_SOURCE[0]}"
 while [ -h "$SOURCE" ]; do
   DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
   SOURCE="$(readlink "$SOURCE")"
-  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE" 
+  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
 done
 DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 ############################################################################
@@ -34,7 +34,7 @@ do
 			obj="${CAS}_${i}_${j}.dat.gz"
 			if [ ! -f "${obj}" ];
 			then
-				echoerr "Error file ${obj} does not exist!!!" 
+				echoerr "Error file ${obj} does not exist!!!"
 			else
 				gunzip "${obj}"
 			fi
@@ -49,7 +49,7 @@ do
 			[[ -f "${obj}" ]] || echoerr "Error file ${obj} has not been created!!!"
 		done
 	fi
-		
+
 	for j in $rsuffix
 	do
 		in="${CAS}_${i}_${j}.dat"
@@ -59,7 +59,7 @@ do
 		       echo "Null wavefunction ${in}!!"
 		       continue
 	        fi
-          
+
 		"${DIR}/normalize.py" "${in}" "${out}"
 
 		[[ -f "${out}" ]] || echoerr "Error, normalized wavefunction ${out} has not been created!!!"
@@ -76,7 +76,7 @@ do
 		       echo "Null wavefunction ${in}!!"
 		       continue
 	        fi
-          
+
 		"${DIR}/normalize.py" 5 "${in}" "${out}"
 
 		[[ -f "${out}" ]] || echoerr "Error, normalized wavefunction ${out} has not been created!!!"
@@ -89,6 +89,6 @@ do
 		[[ -s "${CAS}_${i}_${j}.dat" ]]      && gzip "${CAS}_${i}_${j}.dat"
 		[[ -s "${CAS}_${i}_${j}_norm.dat" ]] && gzip "${CAS}_${i}_${j}_norm.dat"
 	done
-	
+
 	[[ -f "${CAS}_${i}.tgz" ]] || tar -zcf ${CAS}_${i}.tgz --remove-files ${CAS}_${i}_*.dat
 done

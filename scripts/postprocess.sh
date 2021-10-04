@@ -6,23 +6,23 @@ SOURCE="${BASH_SOURCE[0]}"
 while [ -h "$SOURCE" ]; do
   DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
   SOURCE="$(readlink "$SOURCE")"
-  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE" 
+  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
 done
 DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 ############################################################################################################
 ############################################################################################################
 if [ -z "$1" ]; then
 	echo ">> PROCESSING POTENTIAL..."
-	
+
 	cd data
 	mkfifo pot.plot
-	
+
 	if [ -f potential.tgz ]; then
 		tar -O -zxf potential.tgz | awk '{print $4, $5}' > pot.plot &
 	else
 		cat potential_*.dat | awk '{print $4, $5}' > pot.plot &
 	fi
-	
+
 	gnuplot <<-EOF
 	set term png
 	set output 'pot.png'
@@ -33,9 +33,9 @@ if [ -z "$1" ]; then
 	plot 'pot.plot' w d
 	EOF
 	rm pot.plot
-	
+
 	[[ -f potential_1.dat ]] && tar -zcf potential.tgz --remove-files potential_*.dat
-	
+
 	############################################################################################################
 	echo ">> PROCESSING DECAY TABLE..."
 	gnuplot <<-EOF

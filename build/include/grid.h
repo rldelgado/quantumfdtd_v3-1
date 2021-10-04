@@ -51,7 +51,7 @@ dcomp wfncNorm2(dcomp*** wfnc);
 // return expectation value of vInfinity
 dcomp vInfinityExpectationValue(dcomp*** wfnc);
 
-// return expectation value of r^2   
+// return expectation value of r^2
 dcomp r2ExpectationValue(dcomp*** wfnc);
 
 // return expectation value of x, y, and z

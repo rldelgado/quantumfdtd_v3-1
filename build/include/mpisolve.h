@@ -30,9 +30,9 @@ extern int nodeID, numNodes, debug;
 extern dcomp energyCollect;
 extern dcomp normalizationCollect;
 extern dcomp vInfinityCollect;
-extern dcomp rRMS2Collect;    
-extern dcomp xAvgCollect;           
-extern dcomp yAvgCollect;          
+extern dcomp rRMS2Collect;
+extern dcomp xAvgCollect;
+extern dcomp yAvgCollect;
 extern dcomp zAvgCollect;
 extern dcomp ***t_kin;
 

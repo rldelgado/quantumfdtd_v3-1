@@ -2,7 +2,7 @@
 
    latextv.cpp
 
-   Copyright (c) Rafael L. Delgado 
+   Copyright (c) Rafael L. Delgado
 
    GNU General Public License (GPLv3)
    See detailed text in license directory
@@ -75,7 +75,7 @@ void get_pos(const int& sx, const int& sy, const int& sz, double *raw_r2, double
   if (dz==NULL) dz = &idz;
 
   if ( origin_center_lattice() ){
-    // coordinate system is centered in simulation volume 
+    // coordinate system is centered in simulation volume
     *dx = ((double) sx) - ((double)NUMX+1.)/2. + ( ((double)nodeID) - (((double)numNodes)+1.)/2. )*NUMX;
     *dy = ((double) sy) - ((double)NUM+1.)/2.;
     *dz = ((double) sz) - ((double)NUM+1.)/2.;
@@ -98,43 +98,43 @@ void get_pos(const int& sx, const int& sy, const int& sz, double *raw_r2, double
 }
 
 // determines x distance to center of simulation volume in lattice units
-double distx(int sx) 
-{ 
-	double rA, dx;
-	get_pos(sx, 0, 0, NULL, NULL, &dx, NULL, NULL);
-	return dx;
+double distx(int sx)
+{
+  double rA, dx;
+  get_pos(sx, 0, 0, NULL, NULL, &dx, NULL, NULL);
+  return dx;
 }
 
 // determines y distance to center of simulation volume in lattice units
-double disty(int sy) 
-{ 
-	double rA, dy;
-	get_pos(0, sy, 0, NULL, NULL, NULL, &dy, NULL);
-	return dy;
+double disty(int sy)
+{
+  double rA, dy;
+  get_pos(0, sy, 0, NULL, NULL, NULL, &dy, NULL);
+  return dy;
 }
 
 // determines z distance to center of simulation volume in lattice units
-double distz(int sz) 
-{ 
-	double rA, dz;
-	get_pos(0, 0, sz, NULL, NULL, NULL, NULL, &dz);
-	return dz;
+double distz(int sz)
+{
+  double rA, dz;
+  get_pos(0, 0, sz, NULL, NULL, NULL, NULL, &dz);
+  return dz;
 }
 
 // determines square of distance to center of simulation volume in lattice units
 double distsq(int sx, int sy, int sz)
 {
-	double raw_r2;
-	get_pos(sx, sy, sz, &raw_r2, NULL, NULL, NULL, NULL);
-	return raw_r2;
+  double raw_r2;
+  get_pos(sx, sy, sz, &raw_r2, NULL, NULL, NULL, NULL);
+  return raw_r2;
 }
 
 // determines distance to center of simulation volume in physical units
 double get_pos(const int& sx, const int& sy, const int& sz)
 {
-	double rA, dx, dy, dz;
-	get_pos(sx, sy, sz, NULL, &rA, NULL, NULL, NULL);
-	return rA;
+  double rA, dx, dy, dz;
+  get_pos(sx, sy, sz, NULL, &rA, NULL, NULL, NULL);
+  return rA;
 }
 
 void get_pos_c000(const int& sx, const int& sy, const int& sz, int* kx, int* ky, int* kz)
@@ -210,7 +210,7 @@ dcomp read_latext_v(int sx, int sy, int sz)
   }else{
     get_pos_c000(sx, sy, sz, &kx, &ky, &kz);
   }
-      
+
   if (kx<0) kx=-kx;
   if (ky<0) ky=-ky;
   if (kz<0) kz=-kz;
@@ -227,13 +227,13 @@ dcomp read_latext_v(int sx, int sy, int sz)
   if (!found){
     double r = sqrt(kx*kx + ky*ky + kz*kz);
 
-    if (POTFLATR>0 && r>POTFLATR) r = POTFLATR; 
+    if (POTFLATR>0 && r>POTFLATR) r = POTFLATR;
 
     aVeff = ltv_data.full_adj ?
         ltv_data.adjf_a + ltv_data.adjf_b/r + ltv_data.adjf_sigma*r :
-        -0.385/(A*r) + ltv_data.adj_sigma*(A*r); 
+        -0.385/(A*r) + ltv_data.adj_sigma*(A*r);
   }
-  
+
   return aVeff/A;
 }
 
@@ -245,7 +245,7 @@ void load_latext_v(const char *filename)
   std::vector<double> a_dyn_V;
 
   if(!filename) filename = "effpot.dat";
-  
+
   ifstream file(filename);
   if(!file){
     cerr << "EXTERNAL POTENTIAL DOES NOT EXIST!!!" << endl;
@@ -264,28 +264,28 @@ void load_latext_v(const char *filename)
   for (int k1=0; k1<Nrenc; k1++)
     for (int k2=0; k2<Nrenc; k2++)
       for (int k3=0; k3<Nrenc; k3++){
-	ltv_data.s_aVeff[k1][k2][k3] = 0.;
-	ltv_data.n[k1][k2][k3] = 0;
+        ltv_data.s_aVeff[k1][k2][k3] = 0.;
+        ltv_data.n[k1][k2][k3] = 0;
       }
 
   while(!file.eof()){
     int dta, ta, renc;
     double rimp, aVeff, daVeff;
-    
+
     file.getline(buffer, maxline, '\n');
     if (sscanf(buffer, "%d %d %d %le %le %le",
-	       &dta, &ta, &renc, &rimp, &aVeff, &daVeff) != EOF){
-      
+         &dta, &ta, &renc, &rimp, &aVeff, &daVeff) != EOF){
+
       ++read_lines;
 
       if (dta>1 || ta < 5){
-	++discarded_lines;
-	continue;
+        ++discarded_lines;
+        continue;
       }
 
       int k1, k2, k3, tmp;
       tmp = renc;
-      
+
       k3 = tmp % Nrenc;
       tmp /= Nrenc;
       k2 = tmp % Nrenc;
@@ -304,8 +304,8 @@ void load_latext_v(const char *filename)
         a_dyn_V.push_back(aVeff);
       }
       if (maxk2>=maxk2_prev){
-	maxk2_prev=maxk2;
-	ltv_data.aVeff_inf = ltv_data.s_aVeff[k1][k2][k3]/((double)ltv_data.n[k1][k2][k3]);
+        maxk2_prev=maxk2;
+        ltv_data.aVeff_inf = ltv_data.s_aVeff[k1][k2][k3]/((double)ltv_data.n[k1][k2][k3]);
       }
     }
   }
@@ -392,7 +392,7 @@ dcomp read_external_cartes_v(int sx, int sy, int sz)
   iky = ky + Nmax;
   ikz = kz + Nmax;
 
-  maxk2 = dx*dx + dy*dy + dz*dz; 
+  maxk2 = dx*dx + dy*dy + dz*dz;
 
   if( abs(kx)<l_cartes_v_data.Nmax && abs(ky)<l_cartes_v_data.Nmax && abs(kz)<l_cartes_v_data.Nmax ){
 
@@ -406,12 +406,12 @@ dcomp read_external_cartes_v(int sx, int sy, int sz)
   }
 
   if (!found){
-    if (POTFLATR>0 && r>POTFLATR) r = POTFLATR; 
+    if (POTFLATR>0 && r>POTFLATR) r = POTFLATR;
     Veff = l_cartes_v_data.full_adj ?
         l_cartes_v_data.adjf_a + l_cartes_v_data.adjf_b/r + l_cartes_v_data.adjf_sigma*r :
-        -0.385/(A*(r>0?r:0.5)) + l_cartes_v_data.adj_sigma*(A*r); 
+        -0.385/(A*(r>0?r:0.5)) + l_cartes_v_data.adj_sigma*(A*r);
   }
-  
+
   return Veff;
 }
 
@@ -423,7 +423,7 @@ void load_external_cartes_v(const char *filename)
   std::vector<dcomp> a_dyn_V;
 
   if(!filename) filename = "effpot.dat";
-  
+
   ifstream file(filename);
   if(!file){
     cerr << "EXTERNAL POTENTIAL DOES NOT EXIST!!!" << endl;
@@ -449,9 +449,9 @@ void load_external_cartes_v(const char *filename)
 
   while (!file.eof()){
     file.getline(buffer, maxline, '\n');
-    /* FORMAT: 
+    /* FORMAT:
      * If !center of lattice: -N < ki < N; di = A*ki
-     * 
+     *
      * If center on lattice: -N < ki < N; di = A*(ki + 1/2)
      *
      * FORMAT OF COORDINATE ON TEMPORARY FILE:
@@ -461,15 +461,15 @@ void load_external_cartes_v(const char *filename)
      */
 
     if (sscanf(buffer, "%d %d %d %le %le",
-	       &k1, &k2, &k3, &ReV, &ImV) != EOF){
+        &k1, &k2, &k3, &ReV, &ImV) != EOF){
 
-       ++read_lines;
-       if (abs(k1)>Nmax) Nmax = abs(k1);
-       if (abs(k2)>Nmax) Nmax = abs(k2);
-       if (abs(k3)>Nmax) Nmax = abs(k3);
+      ++read_lines;
+      if (abs(k1)>Nmax) Nmax = abs(k1);
+      if (abs(k2)>Nmax) Nmax = abs(k2);
+      if (abs(k3)>Nmax) Nmax = abs(k3);
     }
   }
-  
+
   l_cartes_v_data.Nmax = Nmax;
 
   file.clear();
@@ -486,15 +486,15 @@ void load_external_cartes_v(const char *filename)
   for (int k1=2*Nmax+1; k1>=0; --k1)
     for (int k2=2*Nmax+1; k2>=0; --k2)
       for (int k3=2*Nmax+1; k3>=0; --k3){
-	l_cartes_v_data.s_Veff[k1][k2][k3] = 0.;
-	l_cartes_v_data.n[k1][k2][k3] = 0;
+        l_cartes_v_data.s_Veff[k1][k2][k3] = 0.;
+        l_cartes_v_data.n[k1][k2][k3] = 0;
       }
 
   while(!file.eof()){
     file.getline(buffer, maxline, '\n');
     if (sscanf(buffer, "%d %d %d %le %le",
-	       &k1, &k2, &k3, &ReV, &ImV) != EOF){
-      
+        &k1, &k2, &k3, &ReV, &ImV) != EOF){
+
 
       //if (nodeID==1) printf("k = %d ; %d ; %d : Veff = (%le,%le), n(ki) = %d \n", k1,k2,k3,ReV,ImV,l_cartes_v_data.n[k1][k2][k3]);
 
@@ -507,12 +507,12 @@ void load_external_cartes_v(const char *filename)
       dk3 = k3;
 
       if(origin_center_lattice()){
-	      dk1 += 0.5;
-	      dk2 += 0.5;
-	      dk3 += 0.5;
+        dk1 += 0.5;
+        dk2 += 0.5;
+        dk3 += 0.5;
       }
 
-      maxk2 = dk1*dk1 + dk2*dk2 + dk3*dk3; 
+      maxk2 = dk1*dk1 + dk2*dk2 + dk3*dk3;
 
       l_cartes_v_data.s_Veff[ik1][ik2][ik3] += dcomp(ReV,ImV);
       ++l_cartes_v_data.n[ik1][ik2][ik3];
@@ -522,8 +522,8 @@ void load_external_cartes_v(const char *filename)
         a_dyn_V.push_back(dcomp(ReV,ImV));
       }
       if (maxk2>=maxk2_prev){
-	maxk2_prev=maxk2;
-	l_cartes_v_data.Veff_inf = l_cartes_v_data.s_Veff[ik1][ik2][ik3]/((double)l_cartes_v_data.n[ik1][ik2][ik3]);
+        maxk2_prev=maxk2;
+        l_cartes_v_data.Veff_inf = l_cartes_v_data.s_Veff[ik1][ik2][ik3]/((double)l_cartes_v_data.n[ik1][ik2][ik3]);
       }
     }
   }

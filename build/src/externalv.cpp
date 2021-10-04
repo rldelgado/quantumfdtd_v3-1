@@ -2,7 +2,7 @@
 
    externalv.cpp
 
-   Copyright (c) Rafael L. Delgado 
+   Copyright (c) Rafael L. Delgado
 
    GNU General Public License (GPLv3)
    See detailed text in license directory
@@ -36,7 +36,7 @@ void load_external_file(const char *filename);
 struct external_v_int_t{
   gsl_interp_accel *acc_re, *acc_im;
   gsl_spline *spline_re, *spline_im;
-  
+
   double *vec_r2;
   double *vec_re, *vec_im;
 
@@ -90,20 +90,20 @@ void load_external_file(const char *filename)
 
   ev_int.vec_r2 = new double[ev_int.length];
   ev_int.vec_re = new double[ev_int.length];
-  ev_int.vec_im = new double[ev_int.length]; 
+  ev_int.vec_im = new double[ev_int.length];
 
   ev_int.acc_re = gsl_interp_accel_alloc();
   ev_int.acc_im = gsl_interp_accel_alloc();
-  
+
   ev_int.spline_re = gsl_spline_alloc(gsl_interp_cspline, ev_int.length);
   ev_int.spline_im = gsl_spline_alloc(gsl_interp_cspline, ev_int.length);
-  
+
   while(!file.eof()){
     file.getline(buffer, maxline, '\n');
     if (sscanf(buffer, "%le %le %le", &buff_r2, &buff_re, &buff_im) != EOF){
       if (counter >= ev_int.length){
-	cerr << "ERROR: UNCORRECTLY PREDICTED EXTERNAL POTENTIAL FILE LENGTH!!!" << endl;
-	exit(1);
+        cerr << "ERROR: UNCORRECTLY PREDICTED EXTERNAL POTENTIAL FILE LENGTH!!!" << endl;
+        exit(1);
       }
       ev_int.vec_r2[counter] = buff_r2;
       ev_int.vec_re[counter] = buff_re;
@@ -130,10 +130,10 @@ void destroy_external_v_eval()
   delete ev_int.vec_r2;
   delete ev_int.vec_re;
   delete ev_int.vec_im;
-  
+
   ev_int.spline_re = NULL;
   ev_int.spline_im = NULL;
-  
+
   ev_int.acc_re = NULL;
   ev_int.acc_im = NULL;
 
