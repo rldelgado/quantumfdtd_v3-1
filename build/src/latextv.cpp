@@ -471,7 +471,9 @@ dcomp read_external_cartes_v(int sx, int sy, int sz)
   {
     if (POTFLATR > 0 && r > POTFLATR)
       r = POTFLATR;
-    Veff = l_cartes_v_data.full_adj ? l_cartes_v_data.adjf_a + l_cartes_v_data.adjf_b / r + l_cartes_v_data.adjf_sigma * r : -0.385 / (A * (r > 0 ? r : 0.5)) + l_cartes_v_data.adj_sigma * (A * r);
+    Veff = l_cartes_v_data.full_adj ?
+            l_cartes_v_data.adjf_a + l_cartes_v_data.adjf_b / r + l_cartes_v_data.adjf_sigma * r :
+            -0.385 / (A * (r > 0 ? r : 0.5)) + l_cartes_v_data.adj_sigma * (A * r);
   }
 
   return Veff;

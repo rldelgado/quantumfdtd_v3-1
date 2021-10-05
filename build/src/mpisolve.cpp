@@ -979,21 +979,27 @@ void wfncKinetic(dcomp ***wfnc)
           {
 
           case 1:
-            tmp = pow2(2. * M_PI * ((double)ki) / ((double)NUM)) + pow2(2. * M_PI * ((double)kj) / ((double)NUM)) + pow2(2. * M_PI * ((double)kk) / ((double)NUM));
+            tmp = pow2(2. * M_PI * ((double)ki) / ((double)NUM))
+                    + pow2(2. * M_PI * ((double)kj) / ((double)NUM))
+                    + pow2(2. * M_PI * ((double)kk) / ((double)NUM));
 
             tmp /= (A * A) * ((double)(NUM * NUM * NUM));
             tmp /= (double)2. * MASS;
             break;
 
           case 2:
-            tmp = 4. * pow2(sin(M_PI * ((double)ki) / ((double)NUM))) + 4. * pow2(sin(M_PI * ((double)kj) / ((double)NUM))) + 4. * pow2(sin(M_PI * ((double)kk) / ((double)NUM)));
+            tmp = 4. * pow2(sin(M_PI * ((double)ki) / ((double)NUM)))
+                    + 4. * pow2(sin(M_PI * ((double)kj) / ((double)NUM)))
+                    + 4. * pow2(sin(M_PI * ((double)kk) / ((double)NUM)));
 
             tmp /= (A * A) * ((double)(NUM * NUM * NUM));
             tmp /= (double)2. * MASS;
             break;
 
           case 3:
-            tmp = 4. * pow2(sin(M_PI * ((double)ki) / ((double)NUM))) + 4. * pow2(sin(M_PI * ((double)kj) / ((double)NUM))) + 4. * pow2(sin(M_PI * ((double)kk) / ((double)NUM)));
+            tmp = 4. * pow2(sin(M_PI * ((double)ki) / ((double)NUM)))
+                    + 4. * pow2(sin(M_PI * ((double)kj) / ((double)NUM)))
+                    + 4. * pow2(sin(M_PI * ((double)kk) / ((double)NUM)));
 
             tmp = sqrt(tmp + MASS * MASS * A * A) / (A * ((double)(NUM * NUM * NUM)));
 
